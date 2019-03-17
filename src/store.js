@@ -5,8 +5,6 @@ Vue.use(Vuex);
 import { firestore } from "./firebase";
 
 const getSnapshot = snapshot => ({ id: snapshot.id, ...snapshot.data() });
-
-let unsubscribeFromChannel = () => undefined;
 export default new Vuex.Store({
   state: {
     username: localStorage.getItem("username") || "",
@@ -47,9 +45,8 @@ export default new Vuex.Store({
     fetchMessages(context) {
       context.commit("setMessages", []);
       context.commit("setLoading", true);
-      unsubscribeFromChannel();
-      unsubscribeFromChannel = firestore
-        .collection(`channels/${context.state.currentChannel}/messages`)
+      firestore
+        .collection("messages")
         .orderBy("timestamp", "asc")
         .onSnapshot(snapshot => {
           const messages = snapshot.docs.map(getSnapshot);

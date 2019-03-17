@@ -17,14 +17,11 @@ import { mapState, mapMutations, mapActions } from "vuex";
 export default {
   computed: mapState(["channels", "currentChannel"]),
   methods: {
-    ...mapActions(["fetchChannels", "fetchMessages"]),
+    ...mapActions(["fetchChannels"]),
     ...mapMutations(["setChannel"])
   },
   mounted() {
     this.fetchChannels();
-  },
-  updated() {
-    this.fetchMessages();
   }
 };
 </script>

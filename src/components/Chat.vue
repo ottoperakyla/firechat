@@ -2,8 +2,8 @@
   <div style="flex-grow: 1;">
     <ul ref="messages">
       <li v-if="loading">Loading messages...</li>
-      <li v-if="!loading && messages.length === 0">No messages in this channel yet.</li>
-      <li v-for="message in messages" :key="message.id">
+      <li v-if="!loading && channelMessages.length === 0">No messages in this channel yet.</li>
+      <li v-for="message in channelMessages" :key="message.id">
         <strong>{{message.timestamp | parseFirebaseTimestamp }} {{message.username}}:</strong>
         {{message.text}}
       </li>
@@ -40,7 +40,12 @@ export default {
     };
   },
   computed: {
-    ...mapState(["username", "currentChannel", "messages", "loading"])
+    ...mapState(["username", "currentChannel", "messages", "loading"]),
+    channelMessages() {
+      return this.messages.filter(
+        message => message.channel === this.currentChannel
+      );
+    }
   },
   mounted() {
     this.fetchMessages();
@@ -57,7 +62,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchMessages", "sendMessage"]),
+    ...mapActions(["fetchMessages"]),
     scrollMessages() {
       const messagesRef = this.$refs.messages;
       messagesRef.scroll(0, messagesRef.offsetHeight);
@@ -65,8 +70,9 @@ export default {
     sendMessage() {
       const text = this.message;
       this.message = "";
-      firestore.collection(`channels/${this.currentChannel}/messages`).add({
+      firestore.collection("messages").add({
         timestamp: firebase.firestore.Timestamp.fromDate(new Date()),
+        channel: this.currentChannel,
         username: this.username,
         text
       });
