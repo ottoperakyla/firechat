@@ -1,18 +1,20 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <NameForm v-if="username === ''"/>
+    <Chat v-if="username !== ''"/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import NameForm from "@/components/NameForm.vue";
+import Chat from "@/components/Chat.vue";
+import { mapState } from "vuex";
 
 export default {
-  name: "home",
+  computed: mapState(["username"]),
   components: {
-    HelloWorld
+    NameForm,
+    Chat
   }
 };
 </script>
