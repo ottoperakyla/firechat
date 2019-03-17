@@ -28,7 +28,7 @@ export default {
 
 <style scoped lang="scss">
 ul {
-  padding-right: 1rem;
+  padding: 0 1rem 1rem 0;
   li {
     a {
       text-decoration: none;

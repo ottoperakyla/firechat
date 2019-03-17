@@ -11,12 +11,16 @@ export default new Vuex.Store({
     currentChannel: localStorage.getItem("currentChannel") || "default",
     channels: [],
     messages: [],
+    users: [],
     loading: false
   },
   mutations: {
     setUsername(state, username) {
       state.username = username;
       localStorage.setItem("username", username);
+    },
+    setUsers(state, users) {
+      state.users = users;
     },
     setChannel(state, channel) {
       state.currentChannel = channel;
@@ -42,6 +46,12 @@ export default new Vuex.Store({
           context.commit("setChannels", channels);
         });
     },
+    fetchUsers(context) {
+      firestore.collection("users").onSnapshot(snapshot => {
+        const users = snapshot.docs.map(getSnapshot);
+        context.commit("setUsers", users);
+      });
+    },
     fetchMessages(context) {
       context.commit("setMessages", []);
       context.commit("setLoading", true);
@@ -53,6 +63,20 @@ export default new Vuex.Store({
           context.commit("setMessages", messages);
           context.commit("setLoading", false);
         });
+    },
+    startPing(context) {
+      firestore
+        .collection("users")
+        .doc(context.state.username)
+        .set({
+          lastActive: firebase.firestore.Timestamp.fromDate(new Date())
+        });
+      window.addEventListener("unload", event => {
+        firestore
+          .collection("users")
+          .doc(context.state.username)
+          .delete();
+      });
     }
   }
 });

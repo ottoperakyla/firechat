@@ -5,8 +5,12 @@
     <div v-if="username !== ''">
       <h1>Firechat</h1>
 
-      <div class="container">
-        <Channels/>
+      <div class="columns">
+        <div class="rows">
+          <Channels/>
+          <Users/>
+        </div>
+
         <Chat/>
       </div>
     </div>
@@ -14,8 +18,12 @@
 </template>
 
 <style>
-.container {
+.columns {
   display: flex;
+}
+.rows {
+  display: flex;
+  flex-direction: column;
 }
 </style>
 
@@ -23,14 +31,21 @@
 import NameForm from "@/components/NameForm.vue";
 import Chat from "@/components/Chat.vue";
 import Channels from "@/components/Channels.vue";
-import { mapState } from "vuex";
+import Users from "@/components/Users.vue";
+
+import { mapState, mapActions } from "vuex";
 
 export default {
   computed: mapState(["username"]),
+  methods: mapActions(["fetchUsers"]),
+  mounted() {
+    this.fetchUsers();
+  },
   components: {
     NameForm,
     Chat,
-    Channels
+    Channels,
+    Users
   }
 };
 </script>

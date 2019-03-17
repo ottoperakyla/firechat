@@ -49,6 +49,7 @@ export default {
   },
   mounted() {
     this.fetchMessages();
+    this.startPing();
   },
   updated() {
     this.scrollMessages();
@@ -62,7 +63,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["fetchMessages"]),
+    ...mapActions(["fetchMessages", "startPing"]),
     scrollMessages() {
       const messagesRef = this.$refs.messages;
       messagesRef.scroll(0, messagesRef.offsetHeight);
