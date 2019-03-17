@@ -17,11 +17,16 @@ export default {
 * {
   box-sizing: border-box;
 }
-h1 {
+body {
   margin: 0;
 }
-body {
-  margin: 1rem;
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+h3 {
+  text-decoration: underline;
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
@@ -31,14 +36,19 @@ body {
   max-width: 640px;
   width: 100%;
   margin: auto;
+  padding: 0 1rem;
 }
 .form-group {
   display: flex;
   flex-direction: column;
-  margin: 0.5rem 0;
 
   input {
     max-width: 50%;
   }
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 </style>
