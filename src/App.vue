@@ -41,10 +41,6 @@ h3 {
 .form-group {
   display: flex;
   flex-direction: column;
-
-  input {
-    max-width: 50%;
-  }
 }
 ul {
   margin: 0;

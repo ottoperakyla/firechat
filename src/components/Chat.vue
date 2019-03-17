@@ -11,7 +11,7 @@
     <form ref="messageForm">
       <div class="form-group">
         <label for="message">Message</label>
-        <input v-model="message" type="text" id="message">
+        <input @focus="scrollMessages" v-model="message" type="text" id="message">
       </div>
       <button :disabled="message.trim() === ''" @click.prevent="sendMessage">Send</button>
     </form>
@@ -66,7 +66,7 @@ export default {
     ...mapActions(["fetchMessages", "startPing"]),
     scrollMessages() {
       const messagesRef = this.$refs.messages;
-      messagesRef.scroll(0, messagesRef.offsetHeight);
+      messagesRef.scroll(0, messagesRef.scrollHeight);
     },
     sendMessage() {
       const text = this.message;

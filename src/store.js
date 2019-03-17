@@ -71,12 +71,6 @@ export default new Vuex.Store({
         .set({
           lastActive: firebase.firestore.Timestamp.fromDate(new Date())
         });
-      window.addEventListener("unload", event => {
-        firestore
-          .collection("users")
-          .doc(context.state.username)
-          .delete();
-      });
     }
   }
 });
